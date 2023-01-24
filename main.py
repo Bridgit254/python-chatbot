@@ -10,16 +10,17 @@ app = Flask(__name__)
 @app.route('/bot', methods=['POST'])
 def bot():
 	incoming_msg = request.values.get('Body', '').strip()
-	isPythonCode = False
+	print(incoming_msg)
+
 	resp = MessagingResponse()
 	msg = resp.message()
-
+	isPythonCode = False
+	
 	if incoming_msg.startswith('#!python3'):
-		code = incoming_msg.lstrip('#!python3')
+		code = incoming_msg.strip('#!python3')
 		output = execute_python(code)
 		msg.body(output)
 		isPythonCode = True
-
 	elif incoming_msg.startswith('!pip install'):
 		package = incoming_msg.split()[-1]
 		output = install_package(package)
@@ -32,20 +33,23 @@ def bot():
 	incoming_msg = incoming_msg.lower()
 
 	if 'your name' in incoming_msg:
-		output = 'I am Itachi Uchiha'
+		output = 'My name is Bridgit'
+	
+	elif 'your age' in incoming_msg:
+		output = 'My age is 21'
 
+	elif 'joke' in incoming_msg:
+		output = services.get_joke()
+	
 	elif 'date' in incoming_msg:
 		output = services.get_date()
 
 	elif 'time' in incoming_msg:
 		output = services.get_time()
-
-	elif 'joke' in incoming_msg:
-		output = services.get_joke()
-
+	
 	elif 'quote' in incoming_msg:
 		output = services.get_quote()
-
+	
 	else:
 		api_key = services.fetch_apikey('wolfram-alpha')
 		if api_key == None:
@@ -56,5 +60,8 @@ def bot():
 	msg.body(output)
 	return str(resp)
 
+
 if __name__ == '__main__':
-	app.run()
+    app.run(debug=True)  
+
+

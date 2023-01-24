@@ -4,6 +4,7 @@ import contextlib
 import subprocess
 from io import StringIO
 
+
 @contextlib.contextmanager
 def stdoutIO(stdout=None):
 	old = sys.stdout
@@ -21,10 +22,11 @@ def execute_python(code):
 			print("Something wrong with the code")
 	return c.getvalue()
 
+
 def install_package(package):
 	try:
 		importlib.import_module(package)
 		return f'{package} already installed'
 	except:
 		subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-		return f'{package} installed successfully'
+		return f'{package} installed successfully'   

@@ -1,8 +1,13 @@
-import os
-import json
-import random
 import requests
+import json
 import datetime
+
+def get_joke():
+	url = 'https://some-random-api.ml/joke'
+	r = requests.get(url)
+	data = r.json()
+	return data['joke']
+
 
 def get_date():
 	dt = datetime.datetime.now()
@@ -13,12 +18,6 @@ def get_time():
 	dt = datetime.datetime.now()
 	dt = dt.time()
 	return dt.strftime('%I:%M %p')
-
-def get_joke():
-	url = 'https://some-random-api.ml/joke'
-	r = requests.get(url)
-	data = r.json()
-	return data['joke']
 
 def get_quote():
 	url = 'https://api.quotable.io/random'
@@ -38,6 +37,7 @@ def fetch_apikey(api):
 
 	return data[api]
 
+
 def chatbot(api_key, query):
 	url = f"http://api.wolframalpha.com/v1/result?appid={api_key}&i={query}%3f"
 	r = requests.get(url)
@@ -45,4 +45,4 @@ def chatbot(api_key, query):
 	if data == 'Wolfram|Alpha did not understand your input':
 		return 'Couldn\'t understand the query'
 	else:
-		return data
+		return data 
